@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
-import phoneMusic from "../assets/sounds/phoneafriend.mp3";
+import phoneMusic from "../assets/sounds/phoneAfriend.mp3";
 
 function PhoneAFriend({ correctAnswer, onClose, suspenseAudioRef }) {
   const [message, setMessage] = useState("Dialing your friend...");
