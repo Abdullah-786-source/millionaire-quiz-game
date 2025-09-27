@@ -9,5 +9,5 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
-  base: "/millionaire-quiz-game/",
+  base: process.env.VITE_BASE_PATH || "/",
 })
