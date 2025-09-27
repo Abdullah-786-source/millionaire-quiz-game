@@ -155,7 +155,7 @@ useEffect(() => {
           } else {
             loadQuestion();
           }
-        }, 15000);
+        }, 1500);
       } else {
         setIsCorrect(false);
 
