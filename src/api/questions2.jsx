@@ -1,13 +1,31 @@
+let questionsPool = [];
+let usedIndexes = [];
+
 export async function fetchQuestion() {
   try {
-    // Fetch from the public folder
-    const res = await fetch("/questions.json"); 
-    if (!res.ok) throw new Error("Failed to fetch questions");
+    // Load all questions once if not already loaded
+    if (questionsPool.length === 0) {
+      const res = await fetch("/questions.json");
+      if (!res.ok) throw new Error("Failed to fetch questions");
 
-    const data = await res.json();
+      questionsPool = await res.json();
+      usedIndexes = [];
+    }
 
-    // Select a random question from the array
-    const randomQuestion = data[Math.floor(Math.random() * data.length)];
+    // If all questions are used, reset for a new game
+    if (usedIndexes.length === questionsPool.length) {
+      usedIndexes = [];
+      // Optional: reshuffle for the new game
+    }
+
+    // Pick a random unused question
+    let index;
+    do {
+      index = Math.floor(Math.random() * questionsPool.length);
+    } while (usedIndexes.includes(index));
+
+    usedIndexes.push(index);
+    const randomQuestion = questionsPool[index];
 
     return {
       id: randomQuestion.id,
@@ -18,7 +36,10 @@ export async function fetchQuestion() {
         randomQuestion.option_c,
         randomQuestion.option_d,
       ],
-      correct: randomQuestion[`option_${randomQuestion.correct_option.toLowerCase()}`],
+      correct:
+        randomQuestion[
+          `option_${randomQuestion.correct_option.toLowerCase()}`
+        ],
       difficulty: randomQuestion.difficulty_level,
       category: randomQuestion.category,
     };
